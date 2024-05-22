@@ -1,0 +1,204 @@
+<%- include('header') %>
+<body>
+<div class="page-container">
+   <!--/content-inner-->
+	<div class="left-content">
+	   <div class="mother-grid-inner">
+             <!--header start here-->
+			 <div class="header-main">
+				<div class="" style="float:left;">
+					<h2><a href="/user/home">Leave Management System</a></h2>
+				</div>
+			
+				<div class="profile_details w3l" style="float:right;">      
+					<ul>
+						<li class="dropdown profile_details_drop">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<div class="profile_img">   
+									<span class="prfil-img">
+										<!-- Adjust the width and height of the image -->
+										<img src="<%= path %>" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+									</span> 
+									<div class="user-name">
+										<p sec:authentication="name"></p>
+										<span sec:authentication="principal.authorities"></span>
+									</div>
+									<i class="fa fa-angle-down"></i>
+									<i class="fa fa-angle-up"></i>
+									<div class="clearfix"></div>    
+								</div>  
+							</a>
+							<ul class="dropdown-menu drp-mnu"> 
+								<li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li> 
+								<li> <a href="/logout"><i class="fa fa-sign-out"></i> Logout</a> </li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				
+				<div class="clearfix"></div>   
+			</div>
+			
+<!--heder end here-->
+		<ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/user/home">Home</a> <i class="fa fa-angle-right"></i></li>
+        </ol>
+        
+        <div class="row">
+              <div class="col-lg-12 ">
+                  <div class="alert alert-info" th:if="${(param.successMessage != null)}">
+						<span th:text="${param.successMessage[0]}"></span>
+                  </div>
+                 
+              </div>
+        </div>
+        
+		<div class="agile-tables">
+
+			<h3>My leave</h3>
+		   
+			<table id="table-two-axis" class="two-axis">
+			  <thead>
+				<tr>
+				 
+				  <th>Application Date</th>
+				  <th>From Date</th>
+				  <th>To Date</th>
+				  <th>No of Days</th>
+				  <th>Leave Type</th>
+				  <th>Status</th>
+				  
+				</tr>
+			  </thead>
+
+			  
+			  <tbody>
+				<% for(let i=0;i<leaves.length;i++){ %>
+				<tr>
+					<td ><%=leaves[i].dateOfApplication%></td>
+	                	<td ><%=leaves[i].startDate%></td>
+	                	<td ><%=leaves[i].endDate%></td>
+						<td>
+						<%
+						const date1 =leaves[i].startDate ;
+						const date2 = leaves[i].endDate;
+						
+						// Parse the date strings into Date objects
+						const parsedDate1 = new Date(date1.split('-').reverse().join('-'));
+						const parsedDate2 = new Date(date2.split('-').reverse().join('-'));
+						
+						// Calculate the difference in time (in milliseconds)
+						const timeDifference = parsedDate2 - parsedDate1;
+						
+						// Convert the time difference from milliseconds to days
+						const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+						%>
+							<%= dayDifference %>
+					</td>
+	                	<td ><%=leaves[i].leaveType%></td>
+						<td ><%=leaves[i].status%></td>
+	                	
+				</tr>
+				<%}%>
+			  </tbody>
+			  
+			</table>
+		  
+	  </div>
+
+<script src="js/moment.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script>
+var urlSrc = '/leave-management-system/user/get-all-leaves';
+$(document).ready(function() {
+
+    $('#mycalendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,listWeek'
+      },
+      defaultDate: moment().format("YYYY-MM-DD"),
+      eventLimit: true, // allow "more" link when too many events
+      events: urlSrc
+    	  
+    });
+    
+    $('input:checkbox').change(function(){
+    	
+    	$('#mycalendar').fullCalendar('removeEventSource',urlSrc);
+    	urlSrc = '/leave-management-system/user/get-all-leaves?pending='+$('#pending').is(':checked')+'&accepted='+$('#accepted').is(':checked')+'&rejected='+$('#rejected').is(':checked')+'';
+
+    	$('#mycalendar').fullCalendar('removeEvents');
+    	$('#mycalendar').fullCalendar('addEventSource',urlSrc);
+    	//$('#mycalendar').fullCalendar('refetchEvents');
+        
+    });
+
+  });
+
+</script>
+
+<!-- script-for sticky-nav -->
+		<script>
+		$(document).ready(function() {
+			 var navoffeset=$(".header-main").offset().top;
+			 $(window).scroll(function(){
+				var scrollpos=$(window).scrollTop(); 
+				if(scrollpos >=navoffeset){
+					$(".header-main").addClass("fixed");
+				}else{
+					$(".header-main").removeClass("fixed");
+				}
+			 });
+			 
+		});
+		</script>
+		<!-- /script-for sticky-nav -->
+<!--inner block start here-->
+<div class="inner-block">
+
+</div>
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+	 <p>&copy; 2024 Umar Ssekalala. All Rights Reserved </p>
+</div>	
+<!--COPY rights end here-->
+</div>
+</div>
+  <!--//content-inner-->
+			<!--/sidebar-menu-->
+				<%- include('partials/side-bar')  -%>
+				<div class="clearfix"></div>		
+</div>
+							<script>
+							var toggle = true;
+										
+							$(".sidebar-icon").click(function() {                
+							  if (toggle)
+							  {
+								$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+								$("#menu span").css({"position":"absolute"});
+							  }
+							  else
+							  {
+								$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+								setTimeout(function() {
+								  $("#menu span").css({"position":"relative"});
+								}, 400);
+							  }
+											
+											toggle = !toggle;
+										});
+							</script>
+<!--js -->
+<script src="/js/jquery.nicescroll.js"></script>
+<script src="/js/scripts.js"></script>
+<!-- Bootstrap Core JavaScript -->
+   <script src="/js/bootstrap.min.js"></script>
+   <!-- /Bootstrap Core JavaScript -->	   
+
+</body>
+</html>

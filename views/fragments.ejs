@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Manage Users</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Bootstrap Core //css -->
+<link href="/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<!-- Custom /css -->
+<link href="/css/style.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/css/morris.css" type="text/css"/>
+<!-- Graph /css -->
+<link href="/css/font-awesome.css" rel="stylesheet"> 
+<!-- jQuery -->
+<script src="/js/jquery-2.2.0.min.js"></script>
+<!-- //jQuery -->
+<!-- tables -->
+<link rel="stylesheet" type="text/css" href="/css/table-style.css" />
+<link rel="stylesheet" type="tcss" href="/css/basictable.css" />
+<script type="text/javascript" src="/js/jquery.basictable.min.js"></script>
+<style type="text/css">
+
+.filterStatus {
+    position: relative;
+    top: 2px;
+}
+
+</style>
+</head> 
+<body>
+<div class="page-container">
+	<!--/content-inner-->
+	<div class="left-content">
+		<div class="mother-grid-inner">
+            <!--header start here-->
+			<div class="header-main" sfragment="header-main">
+				<div class="" style="float:left;">
+					<h2><a href="/user/home">Leave Management System</a></h2>
+				</div>
+
+				<div class="profile_details w3l" style="float:right;">		
+					<ul>
+						<li class="dropdown profile_details_drop">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<div class="profile_img">	
+									<span class="prfil-img"><img src="/img/profile.jpg" alt="">  </span> 
+									<div class="user-name">
+										<p sec:authentication="name"></p>
+										<span sec:authentication="principal.authorities"></span>
+									</div>
+									<i class="fa fa-angle-down"></i>
+									<i class="fa fa-angle-up"></i>
+									<div class="clearfix"></div>	
+								</div>	
+							</a>
+							<ul class="dropdown-menu drp-mnu"> 
+								<li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li> 
+								<li> <a href="/logout"><i class="fa fa-sign-out"></i> Logout</a> </li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+						
+			     <div class="clearfix"> </div>	
+			</div>
+			<!--heder end here-->
+			<ol class="breadcrumb">
+	            <li class="breadcrumb-item"><a href="/user/home">Home</a> <i class="fa fa-angle-right"></i></li>
+	        </ol>
+     
+
+
+			<!--inner block start here-->
+			<div class="inner-block">
+			
+			</div>
+			<!--inner block end here-->
+			<!--copy rights start here-->
+			<div class="copyrights" sfragment="footer">
+				<p>&copy; 2018 D&D by Navin. All Rights Reserved </p>
+				<!-- script-for sticky-nav -->
+				<script>
+					$(document).ready(function() {
+						 var navoffeset=$(".header-main").offset().top;
+						 $(window).scroll(function(){
+							var scrollpos=$(window).scrollTop(); 
+							if(scrollpos >=navoffeset){
+								$(".header-main").addClass("fixed");
+							}else{
+								$(".header-main").removeClass("fixed");
+							}
+						 });
+						 
+					});
+				</script>
+				<!-- /script-for sticky-nav -->
+			</div>	
+			<!--COPY rights end here-->
+		</div>
+	</div>
+  <!--//content-inner-->
+			<!--/sidebar-menu-->
+				<%- include('side-bar') -%>
+				<div class="clearfix"></div>		
+</div>
+							<script>
+							var toggle = true;
+										
+							$(".sidebar-icon").click(function() {                
+							  if (toggle)
+							  {
+								$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+								$("#menu span").css({"position":"absolute"});
+							  }
+							  else
+							  {
+								$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+								setTimeout(function() {
+								  $("#menu span").css({"position":"relative"});
+								}, 400);
+							  }
+											
+											toggle = !toggle;
+										});
+							</script>
+<!--js -->
+<script src="/js/jquery.nicescroll.js"></script>
+<script src="/js/scripts.js"></script>
+<!-- Bootstrap Core JavaScript -->
+   <script src="/js/bootstrap.min.js"></script>
+   <!-- /Bootstrap Core JavaScript -->	   
+
+</body>
+</html>
